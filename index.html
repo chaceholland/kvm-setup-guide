@@ -390,7 +390,7 @@
 
                 <div style="background: #fff3e0; border: 2px solid #ff9800; border-radius: 8px; padding: 15px; margin-top: 20px;">
                     <strong style="color: #e65100;">💡 Why These Changes?</strong><br>
-                    <span style="color: #555;">The UGREEN hubs don't pass DDC/CI commands needed for Lunar to switch monitor inputs. Direct USB-C connections fix this while keeping Ethernet functionality.</span>
+                    <span style="color: #555;">The UGREEN hubs don't pass DDC/CI commands needed for Better Display to switch monitor inputs. Direct USB-C connections fix this while keeping Ethernet functionality.</span>
                 </div>
             </div>
 
@@ -565,14 +565,14 @@
                     <div class="section-number" style="background: linear-gradient(135deg, #673ab7 0%, #512da8 100%);">4</div>
                     <div class="section-title">
                         <h2>Software Setup</h2>
-                        <p>Configure Lunar, Barrier, Stream Deck, and USB switch for seamless switching</p>
+                        <p>Configure Better Display, InputLeap, Stream Deck, and USB switch for seamless switching</p>
                     </div>
                 </div>
 
                 <div style="background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px; padding: 20px; margin-bottom: 25px;">
                     <h3 style="color: #e65100; margin-bottom: 15px;">⚠️ Important: Why Direct Connections?</h3>
                     <p style="color: #555; line-height: 1.6;">
-                        <strong>DDC/CI (Display Data Channel Command Interface)</strong> is required for Lunar to switch monitor inputs automatically.
+                        <strong>DDC/CI (Display Data Channel Command Interface)</strong> is required for Better Display to switch monitor inputs automatically.
                         The UGREEN hubs block these commands when video passes through them, which is why we use <strong>direct USB-C to HDMI connections</strong> for the MacBooks.
                     </p>
                     <p style="color: #555; line-height: 1.6; margin-top: 10px;">
@@ -593,11 +593,11 @@
 
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
                         <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #4caf50; text-align: center;">
-                            <strong style="color: #2e7d32;">🌙 Lunar</strong><br>
+                            <strong style="color: #2e7d32;">🌙 Better Display</strong><br>
                             <span style="font-size: 0.85rem; color: #666;">DDC/CI monitor control</span>
                         </div>
                         <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #2196f3; text-align: center;">
-                            <strong style="color: #1565c0;">⌨️ Barrier</strong><br>
+                            <strong style="color: #1565c0;">⌨️ InputLeap</strong><br>
                             <span style="font-size: 0.85rem; color: #666;">Keyboard & mouse sharing</span>
                         </div>
                         <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #ff9800; text-align: center;">
@@ -616,11 +616,11 @@
                     <h4 style="color: #512da8; margin-bottom: 15px;">🚀 Quick Software Summary</h4>
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
                         <tr style="border-bottom: 1px solid #e0e0e0;">
-                            <td style="padding: 10px;"><strong>Lunar (DDC/CI)</strong></td>
+                            <td style="padding: 10px;"><strong>Better Display (DDC/CI)</strong></td>
                             <td style="padding: 10px;">Switch monitor inputs via Cmd+1/2/3 hotkeys</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #e0e0e0;">
-                            <td style="padding: 10px;"><strong>Barrier</strong></td>
+                            <td style="padding: 10px;"><strong>InputLeap</strong></td>
                             <td style="padding: 10px;">Share keyboard/mouse across computers via network</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #e0e0e0;">
@@ -776,7 +776,7 @@
                                 <tr><td>Cmd+3</td><td>Switch to HP Dock</td><td>Both monitors</td></tr>
                             </tbody>
                         </table>
-                        <p style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">Barrier: Move mouse to edge to switch computers | Lunar: Cmd+1/2/3 for monitor switching</p>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">InputLeap: Move mouse to edge to switch computers | Better Display: Cmd+1/2/3 for monitor switching</p>
                     </div>
 
                     <button class="reset-wizard-btn" onclick="resetWizard()">🔄 Start Over</button>
@@ -1000,24 +1000,24 @@
                 steps: [
                     {
                         id: '4a',
-                        title: 'Install Lunar',
+                        title: 'Install Better Display',
                         subtitle: 'DDC/CI Monitor Control',
                         equipment: [],
                         detailedSteps: [
-                            { text: 'Install Lunar via Homebrew', tip: 'Run: brew install --cask lunar (or download from lunar.fyi)' },
+                            { text: 'Install Better Display via Homebrew', tip: 'Run: brew install --cask lunar (or download from lunar.fyi)' },
                             { text: 'Open System Settings → Privacy & Security', tip: null },
-                            { text: 'Enable Accessibility permission for Lunar', tip: 'Required for DDC/CI communication' },
-                            { text: 'Enable Screen Recording permission for Lunar', tip: 'Required for some monitor features' },
-                            { text: 'Quit and reopen Lunar', tip: 'Permissions take effect after restart' },
-                            { text: 'Verify all 2 monitors appear in Lunar menu bar icon', tip: 'If missing, check BENFEI USB power and cables' }
+                            { text: 'Enable Accessibility permission for Better Display', tip: 'Required for DDC/CI communication' },
+                            { text: 'Enable Screen Recording permission for Better Display', tip: 'Required for some monitor features' },
+                            { text: 'Quit and reopen Better Display', tip: 'Permissions take effect after restart' },
+                            { text: 'Verify all 2 monitors appear in Better Display menu bar icon', tip: 'If missing, check BENFEI USB power and cables' }
                         ],
                         signalChain: [
                             { text: 'Homebrew/Download', class: 'chain-computer' },
-                            { text: 'Install Lunar', class: 'chain-adapter' },
+                            { text: 'Install Better Display', class: 'chain-adapter' },
                             { text: 'Grant Permissions', class: 'chain-edid' },
                             { text: 'Verify Detection', class: 'chain-monitor' }
                         ],
-                        warning: { title: 'Permissions Required!', text: 'Lunar MUST have Accessibility permission to control monitors via DDC/CI. Without it, input switching won\'t work.' }
+                        warning: { title: 'Permissions Required!', text: 'Better Display MUST have Accessibility permission to control monitors via DDC/CI. Without it, input switching won\'t work.' }
                     },
                     {
                         id: '4b',
@@ -1025,7 +1025,7 @@
                         subtitle: 'Cmd+1/2/3 Switching',
                         equipment: [],
                         detailedSteps: [
-                            { text: 'Open Lunar Preferences (Cmd+,)', tip: null },
+                            { text: 'Open Better Display Preferences (Cmd+,)', tip: null },
                             { text: 'Go to "Hotkeys" tab', tip: null },
                             { text: 'Find "Input Source" section', tip: 'This controls monitor input switching' },
                             { text: 'Set Cmd+1 to switch both monitors to Personal Mac inputs (DP/DP)', tip: 'Maps to: LEFT=DP, RIGHT=DP' },
@@ -1035,26 +1035,26 @@
                         ],
                         signalChain: [
                             { text: 'Cmd+1', class: 'chain-computer' },
-                            { text: 'Lunar', class: 'chain-adapter' },
+                            { text: 'Better Display', class: 'chain-adapter' },
                             { text: 'DDC/CI', class: 'chain-edid' },
                             { text: 'All Monitors Switch', class: 'chain-monitor' }
                         ],
-                        tip: { title: 'Pro Tip!', text: 'You can also set up per-monitor hotkeys if you want more granular control. Go to each monitor\'s settings in Lunar.' }
+                        tip: { title: 'Pro Tip!', text: 'You can also set up per-monitor hotkeys if you want more granular control. Go to each monitor\'s settings in Better Display.' }
                     },
                     {
                         id: '4c',
-                        title: 'Set Up Barrier',
+                        title: 'Set Up InputLeap',
                         subtitle: 'Keyboard/Mouse Sharing',
                         equipment: [],
                         detailedSteps: [
-                            { text: 'Install Barrier on Personal Mac (Server)', tip: 'brew install --cask barrier' },
-                            { text: 'Install Barrier on Work Mac (Client)', tip: 'brew install --cask barrier' },
-                            { text: 'Install Barrier on HP laptop (Client)', tip: 'Download from github.com/debauchee/barrier' },
+                            { text: 'Install InputLeap on Personal Mac (Server)', tip: 'brew install --cask barrier' },
+                            { text: 'Install InputLeap on Work Mac (Client)', tip: 'brew install --cask barrier' },
+                            { text: 'Install InputLeap on HP laptop (Client)', tip: 'Download from github.com/debauchee/barrier' },
                             { text: 'On Personal Mac: Select "Server" mode', tip: 'This Mac shares its keyboard/mouse' },
                             { text: 'Click "Configure Server" → Add screens for Work Mac and HP', tip: 'Name them to match hostnames' },
                             { text: 'Arrange screens to match your physical layout', tip: 'Drag screens to correct positions' },
                             { text: 'On clients: Select "Client" mode and enter Personal Mac IP', tip: 'Find IP with: ipconfig getifaddr en0' },
-                            { text: 'Grant Accessibility permission on each Mac', tip: 'Required for Barrier to control keyboard/mouse' },
+                            { text: 'Grant Accessibility permission on each Mac', tip: 'Required for InputLeap to control keyboard/mouse' },
                             { text: 'Click Start on all computers', tip: 'Move mouse to screen edge to switch computers!' }
                         ],
                         signalChain: [
@@ -1063,7 +1063,7 @@
                             { text: 'Work Mac (Client)', class: 'chain-adapter' },
                             { text: 'HP (Client)', class: 'chain-coupler' }
                         ],
-                        warning: { title: 'Network Required', text: 'All computers must be on the same network for Barrier to work. Use Ethernet via UGREEN hubs for best performance.' }
+                        warning: { title: 'Network Required', text: 'All computers must be on the same network for InputLeap to work. Use Ethernet via UGREEN hubs for best performance.' }
                     },
                     {
                         id: '4d',
@@ -1071,20 +1071,20 @@
                         subtitle: '✅ Test Everything',
                         equipment: [],
                         detailedSteps: [
-                            { text: 'Press Cmd+1 - Both monitors should switch to Personal Mac', tip: 'If not working, check Lunar permissions and DDC/CI' },
+                            { text: 'Press Cmd+1 - Both monitors should switch to Personal Mac', tip: 'If not working, check Better Display permissions and DDC/CI' },
                             { text: 'Press Cmd+2 - Both monitors should switch to Work Mac', tip: 'Check DP connections' },
                             { text: 'Press Cmd+3 - Both monitors should switch to HP Dock', tip: 'Via VGA connections' },
-                            { text: 'Move mouse to screen edge - Cursor moves to other computer via Barrier', tip: 'Verify keyboard works on the other computer too' },
+                            { text: 'Move mouse to screen edge - Cursor moves to other computer via InputLeap', tip: 'Verify keyboard works on the other computer too' },
                             { text: 'Unplug and replug a display cable - Windows stay in place!', tip: 'EDID emulators prevent window rearranging' },
                             { text: '🎉 Celebrate - Your KVM setup is complete!', tip: null }
                         ],
                         signalChain: [
                             { text: 'Test Hotkeys', class: 'chain-computer' },
-                            { text: 'Test Barrier', class: 'chain-adapter' },
+                            { text: 'Test InputLeap', class: 'chain-adapter' },
                             { text: 'Test Switches', class: 'chain-switch' },
                             { text: '🎉 Complete!', class: 'chain-monitor' }
                         ],
-                        tip: { title: 'All Done!', text: 'Your setup is complete! Use Cmd+1/2/3 to switch monitors, Barrier for mouse/keyboard, and physical USB switch for peripherals.' }
+                        tip: { title: 'All Done!', text: 'Your setup is complete! Use Cmd+1/2/3 to switch monitors, InputLeap for mouse/keyboard, and physical USB switch for peripherals.' }
                     }
                 ]
             }
