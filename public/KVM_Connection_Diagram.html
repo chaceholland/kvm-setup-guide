@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KVM Connection Diagram - Detailed Signal Chain</title>
+    <title>KVM Connection Diagram - Complete Signal Chain</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.4;
+            line-height: 1.3;
             color: #000;
             background: #fff;
             padding: 20px;
@@ -26,280 +26,35 @@
             .no-print {
                 display: none;
             }
-            .page-break {
-                page-break-before: always;
-            }
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 3px solid #000;
         }
 
         .header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
         }
 
         .header p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #666;
-        }
-
-        .overview {
-            background: #f0f0f0;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            border: 2px solid #333;
-        }
-
-        .overview h2 {
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .overview-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .overview-box {
-            background: white;
-            padding: 15px;
-            border: 2px solid #000;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .overview-box strong {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .computer-section {
-            margin-bottom: 40px;
-            padding: 20px;
-            border: 3px solid #000;
-            border-radius: 8px;
-            background: #fafafa;
-        }
-
-        .computer-header {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            padding: 15px;
-            text-align: center;
-            border-radius: 5px;
-        }
-
-        .personal-header {
-            background: #e8f5e9;
-            border: 2px solid #4caf50;
-        }
-
-        .work-header {
-            background: #fff3e0;
-            border: 2px solid #ff9800;
-        }
-
-        .hp-header {
-            background: #e3f2fd;
-            border: 2px solid #2196f3;
-        }
-
-        .monitor-connection {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border: 2px solid #666;
-            border-radius: 8px;
-        }
-
-        .monitor-title {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #333;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-        }
-
-        .signal-chain {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .chain-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .component {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #000;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-            background: white;
-            position: relative;
-        }
-
-        .component-computer {
-            background: #e3f2fd;
-            border-color: #1976d2;
-        }
-
-        .component-cable {
-            background: #f3e5f5;
-            border-color: #7b1fa2;
-        }
-
-        .component-adapter {
-            background: #fff9c4;
-            border-color: #f57c00;
-        }
-
-        .component-edid {
-            background: #ffebee;
-            border-color: #c62828;
-        }
-
-        .component-coupler {
-            background: #e0f2f1;
-            border-color: #00796b;
-        }
-
-        .component-monitor {
-            background: #e8f5e9;
-            border-color: #2e7d32;
-            font-size: 1.1rem;
-        }
-
-        .arrow {
-            width: 40px;
-            height: 40px;
-            background: #000;
-            clip-path: polygon(0 40%, 60% 40%, 60% 0%, 100% 50%, 60% 100%, 60% 60%, 0 60%);
-            flex-shrink: 0;
-        }
-
-        .component-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 5px;
-            font-weight: normal;
-        }
-
-        .warning-box {
-            background: #fff3cd;
-            border: 2px solid #ff9800;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-        }
-
-        .warning-box strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-
-        .info-box {
-            background: #d1ecf1;
-            border: 2px solid #0c5460;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-        }
-
-        .legend {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border: 2px solid #333;
-            border-radius: 8px;
-        }
-
-        .legend h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-
-        .legend-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .legend-color {
-            width: 30px;
-            height: 30px;
-            border: 2px solid #000;
-            border-radius: 3px;
-        }
-
-        .equipment-summary {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f0f0f0;
-            border: 2px solid #000;
-            border-radius: 8px;
-        }
-
-        .equipment-summary h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-
-        .equipment-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .equipment-table th,
-        .equipment-table td {
-            padding: 10px;
-            border: 1px solid #000;
-            text-align: left;
-        }
-
-        .equipment-table th {
-            background: #333;
-            color: white;
-            font-weight: bold;
-        }
-
-        .equipment-table tr:nth-child(even) {
-            background: #f9f9f9;
         }
 
         .print-button {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 30px;
+            padding: 12px 24px;
             background: #4caf50;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             z-index: 1000;
@@ -309,18 +64,355 @@
             background: #45a049;
         }
 
-        @media screen and (max-width: 768px) {
-            .overview-grid,
-            .legend-grid {
-                grid-template-columns: 1fr;
-            }
+        .overview {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 2px solid #000;
+        }
 
-            .chain-row {
-                flex-direction: column;
-            }
+        .overview h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
 
-            .arrow {
-                transform: rotate(90deg);
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .overview-box {
+            background: white;
+            padding: 10px;
+            border: 2px solid #000;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .overview-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Main Diagram */
+        .diagram-container {
+            position: relative;
+            background: #fafafa;
+            padding: 30px;
+            border: 3px solid #000;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .diagram-title {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #333;
+            color: white;
+            border-radius: 5px;
+        }
+
+        /* Connection Layout */
+        .connection-layout {
+            display: grid;
+            grid-template-columns: 150px 1fr 150px;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .computers-column {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .monitors-column {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .signal-paths {
+            position: relative;
+            min-height: 400px;
+        }
+
+        /* Components */
+        .component {
+            padding: 8px 12px;
+            border: 2px solid #000;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .comp-computer {
+            background: #e3f2fd;
+            border-color: #1976d2;
+        }
+
+        .comp-monitor {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+
+        .comp-cable {
+            background: #f3e5f5;
+            border-color: #7b1fa2;
+            padding: 6px 10px;
+            font-size: 0.7rem;
+        }
+
+        .comp-edid {
+            background: #ffebee;
+            border-color: #c62828;
+            padding: 6px 10px;
+            font-size: 0.7rem;
+        }
+
+        .comp-adapter {
+            background: #fff9c4;
+            border-color: #f57c00;
+            padding: 6px 10px;
+            font-size: 0.7rem;
+        }
+
+        .comp-coupler {
+            background: #e0f2f1;
+            border-color: #00796b;
+            padding: 5px 8px;
+            font-size: 0.65rem;
+        }
+
+        /* Signal Paths using SVG */
+        .signal-paths svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .path-personal {
+            stroke: #4caf50;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .path-work {
+            stroke: #ff9800;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .path-hp {
+            stroke: #2196f3;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        /* Component groups in signal paths */
+        .path-components {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .path-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .connection-label {
+            position: absolute;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 1px solid #666;
+            white-space: nowrap;
+        }
+
+        .label-personal {
+            color: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .label-work {
+            color: #ff9800;
+            border-color: #ff9800;
+        }
+
+        .label-hp {
+            color: #2196f3;
+            border-color: #2196f3;
+        }
+
+        /* Compact Path Display */
+        .compact-paths {
+            margin-bottom: 30px;
+        }
+
+        .path-section {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 2px solid;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .path-section.personal {
+            border-color: #4caf50;
+        }
+
+        .path-section.work {
+            border-color: #ff9800;
+        }
+
+        .path-section.hp {
+            border-color: #2196f3;
+        }
+
+        .path-header {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .path-flow {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+        }
+
+        .arrow-icon {
+            color: #666;
+            font-weight: bold;
+        }
+
+        /* Legend */
+        .legend {
+            background: #f5f5f5;
+            padding: 15px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .legend h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-box {
+            width: 25px;
+            height: 25px;
+            border: 2px solid #000;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Equipment Table */
+        .equipment-table-container {
+            margin-top: 20px;
+        }
+
+        .equipment-table-container h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #000;
+            text-align: left;
+        }
+
+        th {
+            background: #333;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ff9800;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+
+        .warning-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 2px solid #0c5460;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px solid #000;
+            font-size: 0.85rem;
+        }
+
+        @media print {
+            .path-section {
+                break-inside: avoid;
             }
         }
     </style>
@@ -336,376 +428,201 @@
 
     <div class="overview">
         <h2>📋 System Overview</h2>
-        <p><strong>Architecture:</strong> Each computer uses a unique monitor input type (HDMI, DisplayPort, USB-C) on both monitors. Better Display switches both monitors simultaneously via DDC/CI.</p>
-
         <div class="overview-grid">
             <div class="overview-box" style="border-color: #4caf50;">
                 <strong>🟢 Personal Mac</strong>
-                <div>Input: HDMI</div>
-                <div>Hotkey: Cmd+1</div>
-                <div>Simplest setup</div>
+                <div>HDMI • Cmd+1</div>
             </div>
             <div class="overview-box" style="border-color: #ff9800;">
                 <strong>🟠 Work Mac</strong>
-                <div>Input: DisplayPort</div>
-                <div>Hotkey: Cmd+2</div>
-                <div>Via BENFEI adapters</div>
+                <div>DisplayPort • Cmd+2</div>
             </div>
             <div class="overview-box" style="border-color: #2196f3;">
                 <strong>🟣 HP Dock</strong>
-                <div>Input: USB-C</div>
-                <div>Hotkey: Cmd+3</div>
-                <div>Dual conversion</div>
+                <div>USB-C • Cmd+3</div>
             </div>
         </div>
     </div>
 
-    <!-- PERSONAL MAC -->
-    <div class="computer-section">
-        <div class="computer-header personal-header">
-            🟢 Personal Mac → Both Monitors (HDMI)
-        </div>
+    <div class="diagram-container">
+        <div class="diagram-title">Complete Signal Chain Diagram</div>
 
-        <div class="info-box">
-            <strong>✨ Simplest Connection:</strong> Direct USB-C to HDMI cables with inline EDID emulators. No extra adapters or couplers needed.
-        </div>
-
-        <div class="monitor-connection">
-            <div class="monitor-title">Connection 1A: Personal Mac → LEFT Monitor</div>
-            <div class="signal-chain">
-                <div class="chain-row">
-                    <div class="component component-computer">
-                        MacBook USB-C Port
-                        <div class="component-label">Output from laptop</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-cable">
-                        USB-C to HDMI Cable
-                        <div class="component-label">Direct video cable</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-edid">
-                        EDID 1440p Emulator
-                        <div class="component-label">Male HDMI IN/OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-monitor">
-                        LEFT Monitor HDMI Input
-                        <div class="component-label">Samsung ViewFinity S65UC</div>
-                    </div>
+        <!-- Personal Mac Connections -->
+        <div class="compact-paths">
+            <div class="path-section personal">
+                <div class="path-header">
+                    <span>🟢 Personal Mac → LEFT Monitor (1A)</span>
                 </div>
+                <div class="path-flow">
+                    <span class="comp-computer">MacBook USB-C</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">USB-C to HDMI</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-edid">EDID 1440p</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-monitor">LEFT HDMI</span>
+                </div>
+            </div>
+
+            <div class="path-section personal">
+                <div class="path-header">
+                    <span>🟢 Personal Mac → RIGHT Monitor (1B)</span>
+                </div>
+                <div class="path-flow">
+                    <span class="comp-computer">MacBook USB-C</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">USB-C to HDMI</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-edid">EDID 1440p</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-monitor">RIGHT HDMI</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>✨ Simplest Setup:</strong> Direct cables with inline EDID. Equipment: 2× USB-C to HDMI cables, 2× EDID emulators.
             </div>
         </div>
 
-        <div class="monitor-connection">
-            <div class="monitor-title">Connection 1B: Personal Mac → RIGHT Monitor</div>
-            <div class="signal-chain">
-                <div class="chain-row">
-                    <div class="component component-computer">
-                        MacBook USB-C Port
-                        <div class="component-label">Second output</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-cable">
-                        USB-C to HDMI Cable
-                        <div class="component-label">Direct video cable</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-edid">
-                        EDID 1440p Emulator
-                        <div class="component-label">Male HDMI IN/OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-monitor">
-                        RIGHT Monitor HDMI Input
-                        <div class="component-label">Samsung ViewFinity S65UC</div>
-                    </div>
+        <!-- Work Mac Connections -->
+        <div class="compact-paths">
+            <div class="path-section work">
+                <div class="path-header">
+                    <span>🟠 Work Mac → LEFT Monitor (2A)</span>
                 </div>
+                <div class="path-flow">
+                    <span class="comp-computer">MacBook USB-C</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">USB-C to HDMI</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-edid">EDID 1440p</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-coupler">Coupler</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-adapter">BENFEI HDMI→DP + USB⚡</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">DP Cable</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-monitor">LEFT DP</span>
+                </div>
+            </div>
+
+            <div class="path-section work">
+                <div class="path-header">
+                    <span>🟠 Work Mac → RIGHT Monitor (2B)</span>
+                </div>
+                <div class="path-flow">
+                    <span class="comp-computer">MacBook USB-C</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">USB-C to HDMI</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-edid">EDID 1440p</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-coupler">Coupler</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-adapter">BENFEI HDMI→DP + USB⚡</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">DP Cable</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-monitor">RIGHT DP</span>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚡ CRITICAL:</strong> Each BENFEI adapter requires USB power! Equipment: 2× USB-C to HDMI cables, 2× EDID emulators, 2× Couplers, 2× BENFEI adapters (with USB power), 2× DP cables.
             </div>
         </div>
 
-        <div class="info-box">
-            <strong>Equipment per connection:</strong> 1× USB-C to HDMI cable, 1× EDID emulator (2 total)
+        <!-- HP Dock Connections -->
+        <div class="compact-paths">
+            <div class="path-section hp">
+                <div class="path-header">
+                    <span>🟣 HP Dock → LEFT Monitor (3A)</span>
+                </div>
+                <div class="path-flow">
+                    <span class="comp-computer">HP Dock DP</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-adapter">DP→HDMI</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">HDMI Cable</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-edid">EDID 1440p</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-coupler">Coupler</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-adapter">HDMI→USB-C</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-monitor">LEFT USB-C</span>
+                </div>
+            </div>
+
+            <div class="path-section hp">
+                <div class="path-header">
+                    <span>🟣 HP Dock → RIGHT Monitor (3B)</span>
+                </div>
+                <div class="path-flow">
+                    <span class="comp-computer">HP Dock DP</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-adapter">DP→HDMI</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-cable">HDMI Cable</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-edid">EDID 1440p</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-coupler">Coupler</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-adapter">HDMI→USB-C</span>
+                    <span class="arrow-icon">→</span>
+                    <span class="comp-monitor">RIGHT USB-C</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>ℹ️ Dual Conversion:</strong> DP→HDMI (for EDID), then HDMI→USB-C (for monitor). Equipment: 2× DP→HDMI adapters, 2× HDMI cables, 2× EDID emulators, 2× Couplers, 2× HDMI→USB-C adapters.
+            </div>
         </div>
     </div>
 
-    <div class="page-break"></div>
-
-    <!-- WORK MAC -->
-    <div class="computer-section">
-        <div class="computer-header work-header">
-            🟠 Work Mac → Both Monitors (DisplayPort)
-        </div>
-
-        <div class="warning-box">
-            <strong>⚡ CRITICAL: BENFEI USB Power Required!</strong>
-            Each BENFEI HDMI→DP adapter must have its USB power cable connected to a wall adapter or USB port. Without power, the adapter will not work.
-        </div>
-
-        <div class="monitor-connection">
-            <div class="monitor-title">Connection 2A: Work Mac → LEFT Monitor</div>
-            <div class="signal-chain">
-                <div class="chain-row">
-                    <div class="component component-computer">
-                        MacBook USB-C Port
-                        <div class="component-label">Output from laptop</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-cable">
-                        USB-C to HDMI Cable
-                        <div class="component-label">Convert to HDMI</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-edid">
-                        EDID 1440p Emulator
-                        <div class="component-label">Male HDMI OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-coupler">
-                        HDMI Coupler
-                        <div class="component-label">Female-Female adapter</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-adapter">
-                        BENFEI HDMI→DP
-                        <div class="component-label">Male HDMI IN + USB power</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-cable">
-                        DisplayPort Cable
-                        <div class="component-label">DP male to male</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-monitor">
-                        LEFT Monitor DisplayPort
-                        <div class="component-label">Samsung ViewFinity S65UC</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="monitor-connection">
-            <div class="monitor-title">Connection 2B: Work Mac → RIGHT Monitor</div>
-            <div class="signal-chain">
-                <div class="chain-row">
-                    <div class="component component-computer">
-                        MacBook USB-C Port
-                        <div class="component-label">Second output</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-cable">
-                        USB-C to HDMI Cable
-                        <div class="component-label">Convert to HDMI</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-edid">
-                        EDID 1440p Emulator
-                        <div class="component-label">Male HDMI OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-coupler">
-                        HDMI Coupler
-                        <div class="component-label">Female-Female adapter</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-adapter">
-                        BENFEI HDMI→DP
-                        <div class="component-label">Male HDMI IN + USB power</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-cable">
-                        DisplayPort Cable
-                        <div class="component-label">DP male to male</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-monitor">
-                        RIGHT Monitor DisplayPort
-                        <div class="component-label">Samsung ViewFinity S65UC</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="info-box">
-            <strong>Equipment per connection:</strong> 1× USB-C to HDMI cable, 1× EDID emulator, 1× HDMI coupler, 1× BENFEI adapter (with USB power), 1× DP cable (6 items × 2 connections)
-        </div>
-    </div>
-
-    <div class="page-break"></div>
-
-    <!-- HP DOCK -->
-    <div class="computer-section">
-        <div class="computer-header hp-header">
-            🟣 HP Dock → Both Monitors (USB-C)
-        </div>
-
-        <div class="info-box">
-            <strong>ℹ️ Dual Conversion:</strong> HP Dock outputs DisplayPort, which converts to HDMI (for EDID), then back to USB-C for monitor input. This maintains EDID inline while using the monitor's USB-C port.
-        </div>
-
-        <div class="monitor-connection">
-            <div class="monitor-title">Connection 3A: HP Dock → LEFT Monitor</div>
-            <div class="signal-chain">
-                <div class="chain-row">
-                    <div class="component component-computer">
-                        HP Dock DP Output
-                        <div class="component-label">DisplayPort output</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-adapter">
-                        DP to HDMI Adapter
-                        <div class="component-label">Male DP IN, Female HDMI OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-cable">
-                        HDMI Cable
-                        <div class="component-label">Male-Male (if needed)</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-edid">
-                        EDID 1440p Emulator
-                        <div class="component-label">Male HDMI OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-coupler">
-                        HDMI Coupler
-                        <div class="component-label">Female-Female adapter</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-adapter">
-                        HDMI to USB-C Adapter
-                        <div class="component-label">Male HDMI IN, USB-C OUT</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-monitor">
-                        LEFT Monitor USB-C Input
-                        <div class="component-label">Samsung ViewFinity S65UC</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="monitor-connection">
-            <div class="monitor-title">Connection 3B: HP Dock → RIGHT Monitor</div>
-            <div class="signal-chain">
-                <div class="chain-row">
-                    <div class="component component-computer">
-                        HP Dock DP Output #2
-                        <div class="component-label">Second DP output</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-adapter">
-                        DP to HDMI Adapter
-                        <div class="component-label">Male DP IN, Female HDMI OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-cable">
-                        HDMI Cable
-                        <div class="component-label">Male-Male (if needed)</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-edid">
-                        EDID 1440p Emulator
-                        <div class="component-label">Male HDMI OUT</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-coupler">
-                        HDMI Coupler
-                        <div class="component-label">Female-Female adapter</div>
-                    </div>
-                    <div class="arrow"></div>
-                    <div class="component component-adapter">
-                        HDMI to USB-C Adapter
-                        <div class="component-label">Male HDMI IN, USB-C OUT</div>
-                    </div>
-                </div>
-                <div class="chain-row">
-                    <div class="arrow" style="transform: rotate(90deg);"></div>
-                </div>
-                <div class="chain-row">
-                    <div class="component component-monitor">
-                        RIGHT Monitor USB-C Input
-                        <div class="component-label">Samsung ViewFinity S65UC</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="info-box">
-            <strong>Equipment per connection:</strong> 1× DP to HDMI adapter, 1× HDMI cable (optional), 1× EDID emulator, 1× HDMI coupler, 1× HDMI to USB-C adapter (5 items × 2 connections)
-        </div>
-    </div>
-
-    <div class="page-break"></div>
-
-    <!-- LEGEND -->
+    <!-- Legend -->
     <div class="legend">
         <h3>🎨 Component Legend</h3>
         <div class="legend-grid">
             <div class="legend-item">
-                <div class="legend-color component-computer"></div>
-                <div><strong>Computer Output</strong> - Source device</div>
+                <div class="legend-box comp-computer"></div>
+                <span><strong>Computer</strong> - Source device</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color component-cable"></div>
-                <div><strong>Cable</strong> - Video cable</div>
+                <div class="legend-box comp-cable"></div>
+                <span><strong>Cable</strong> - Video cable</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color component-adapter"></div>
-                <div><strong>Adapter</strong> - Signal converter</div>
+                <div class="legend-box comp-adapter"></div>
+                <span><strong>Adapter</strong> - Signal converter</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color component-edid"></div>
-                <div><strong>EDID Emulator</strong> - Prevents window rearrangement</div>
+                <div class="legend-box comp-edid"></div>
+                <span><strong>EDID</strong> - Prevents window rearrange</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color component-coupler"></div>
-                <div><strong>Coupler</strong> - Female-Female connector</div>
+                <div class="legend-box comp-coupler"></div>
+                <span><strong>Coupler</strong> - Female-Female connector</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color component-monitor"></div>
-                <div><strong>Monitor Input</strong> - Final destination</div>
+                <div class="legend-box comp-monitor"></div>
+                <span><strong>Monitor</strong> - Final destination</span>
             </div>
         </div>
     </div>
 
-    <!-- EQUIPMENT SUMMARY -->
-    <div class="equipment-summary">
+    <!-- Equipment Table -->
+    <div class="equipment-table-container">
         <h3>📦 Complete Equipment Summary</h3>
-        <table class="equipment-table">
+        <table>
             <thead>
                 <tr>
                     <th>Equipment</th>
-                    <th>Personal Mac</th>
-                    <th>Work Mac</th>
+                    <th>Personal</th>
+                    <th>Work</th>
                     <th>HP Dock</th>
                     <th>Total</th>
                 </tr>
@@ -733,9 +650,9 @@
                     <td>4</td>
                 </tr>
                 <tr>
-                    <td><strong>BENFEI HDMI→DP adapters</strong></td>
+                    <td><strong>BENFEI HDMI→DP (+ USB power)</strong></td>
                     <td>0</td>
-                    <td>2 (+ USB power)</td>
+                    <td>2</td>
                     <td>0</td>
                     <td>2</td>
                 </tr>
@@ -771,17 +688,17 @@
         </table>
     </div>
 
-    <div class="warning-box" style="margin-top: 30px;">
+    <div class="warning-box" style="margin-top: 20px;">
         <strong>🔑 Key Principles:</strong>
-        <ul style="margin-top: 10px; margin-left: 20px;">
-            <li><strong>EDID in Every Chain:</strong> All 6 connections have inline EDID emulators to prevent window rearrangement</li>
-            <li><strong>EDID Requires HDMI:</strong> All signals convert to HDMI before EDID, then convert to final input type after EDID</li>
-            <li><strong>Unique Input Types:</strong> Each computer uses a different input type on both monitors for simultaneous DDC/CI switching</li>
-            <li><strong>Better Display Control:</strong> Cmd+1/2/3 switches both monitors simultaneously to HDMI/DP/USB-C</li>
+        <ul style="margin-left: 20px; margin-top: 8px;">
+            <li><strong>EDID in Every Chain:</strong> All 6 connections have inline EDID emulators</li>
+            <li><strong>EDID Requires HDMI:</strong> Signals convert to HDMI before EDID, then to final input type</li>
+            <li><strong>Unique Input Types:</strong> Each computer uses different input (HDMI/DP/USB-C) on both monitors</li>
+            <li><strong>Better Display:</strong> Cmd+1/2/3 switches both monitors simultaneously</li>
         </ul>
     </div>
 
-    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #000;">
+    <div class="footer">
         <p><strong>Created with Claude Code • February 2026</strong></p>
         <p style="margin-top: 10px;"><a href="index.html" class="no-print">← Back to Main Guide</a></p>
     </div>
