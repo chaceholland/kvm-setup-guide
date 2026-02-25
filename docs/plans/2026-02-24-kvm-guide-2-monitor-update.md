@@ -101,7 +101,23 @@ Change "ViewSonic monitors" to "Samsung ViewFinity monitors" in BENFEI card (lin
 <div class="description"><strong>What it does:</strong> Converts HDMI to DisplayPort for Samsung ViewFinity monitors.</div>
 ```
 
-**Step 3: Update BENFEI quantity**
+**Step 3: Add DisplayPort to HDMI adapter equipment card**
+
+Add a new equipment card after the USB-C to HDMI cable card:
+
+```html
+<div class="equipment-card">
+    <div class="card-header" style="background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);">🔄 DisplayPort to HDMI Adapter</div>
+    <div class="card-body">
+        <div class="photo-container"><img src="https://m.media-amazon.com/images/I/61B3vXOGRiL._AC_SL1500_.jpg" alt="DP to HDMI Adapter"></div>
+        <div class="port-labels"><span class="port-label dp">DisplayPort IN</span><span class="port-label hdmi">HDMI OUT</span></div>
+        <div class="description"><strong>What it does:</strong> Converts DisplayPort from HP Dock to HDMI for monitors.</div>
+        <span class="quantity">You have: 2 adapters</span>
+    </div>
+</div>
+```
+
+**Step 4: Update BENFEI quantity**
 
 Change quantity from "Need: 4" to "Need: 2-4" (line ~318):
 
@@ -109,11 +125,11 @@ Change quantity from "Need: 4" to "Need: 2-4" (line ~318):
 <span class="quantity">Need: 2-4 (depending on connection method)</span>
 ```
 
-**Step 4: Verify equipment section**
+**Step 5: Verify equipment section**
 
-Check that HDMI switch is gone and monitor references are updated
+Check that HDMI switch is gone, DP to HDMI adapter is added, and monitor references are updated
 
-**Step 5: Commit**
+**Step 6: Commit**
 
 ```bash
 git add index.html
@@ -297,12 +313,12 @@ git commit -m "docs: update HP Dock section to 2 monitors"
 **Files:**
 - Modify: `index.html:540-590` (approximate)
 
-**Step 1: Update Lunar configuration text**
+**Step 1: Update Better Display configuration text**
 
 Find and update all references to "all 3 monitors" → "both monitors":
 
 ```html
-<div class="description"><strong>What it does:</strong> Verify all 2 monitors appear in Lunar menu bar icon</div>
+<div class="description"><strong>What it does:</strong> Verify all 2 monitors appear in Better Display menu bar icon</div>
 ```
 
 **Step 2: Update hotkey descriptions**
@@ -321,7 +337,7 @@ Update the help text to remove HDMI switch mention:
 
 ```html
 <p style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">
-    Barrier: Move mouse to edge to switch computers | Lunar: Cmd+1/2/3 for monitor switching
+    InputLeap: Move mouse to edge to switch computers | Better Display: Cmd+1/2/3 for monitor switching
 </p>
 ```
 
@@ -392,7 +408,7 @@ Remove HDMI switch reference (line ~738):
 
 ```html
 <p style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">
-    Barrier: Move mouse to edge to switch computers | Lunar: Cmd+1/2/3 for monitor switching
+    InputLeap: Move mouse to edge to switch computers | Better Display: Cmd+1/2/3 for monitor switching
 </p>
 ```
 
@@ -561,18 +577,18 @@ git commit -m "feat: update wizard data for HP Dock - 2 monitors"
 **Files:**
 - Modify: `index.html:997-1090` (approximate)
 
-**Step 1: Update Lunar verification step**
+**Step 1: Update Better Display verification step**
 
-Find the Lunar verification step and update monitor count references:
+Find the Better Display verification step and update monitor count references:
 
 ```javascript
 {
     id: 'software-1',
-    title: 'Install Lunar',
+    title: 'Install Better Display',
     // ...
     detailedSteps: [
         // ...
-        { text: 'Verify all 2 monitors appear in Lunar menu bar icon', tip: 'If missing, check BENFEI USB power and cables' }
+        { text: 'Verify all 2 monitors appear in Better Display menu bar icon', tip: 'If missing, check BENFEI USB power and cables' }
     ],
     // ...
 }
@@ -598,7 +614,7 @@ Update test step to reference 2 monitors:
 
 ```javascript
 detailedSteps: [
-    { text: 'Press Cmd+1 - Both monitors should switch to Personal Mac', tip: 'If not working, check Lunar permissions and DDC/CI' },
+    { text: 'Press Cmd+1 - Both monitors should switch to Personal Mac', tip: 'If not working, check Better Display permissions and DDC/CI' },
     { text: 'Press Cmd+2 - Both monitors should switch to Work Mac', tip: 'Check DP connections' },
     // ...
 ]
@@ -754,7 +770,7 @@ Complete visual guide for connecting 3 computers to 2 monitors with KVM function
 ## Current Setup
 - **Monitors:** 2x Samsung ViewFinity S65UC 34" (LS34C650UANXGO)
 - **Computers:** Personal Mac, Work Mac, HP Dock
-- **Features:** DDC/CI switching via Lunar, Barrier for unified mouse/keyboard
+- **Features:** DDC/CI switching via Better Display, InputLeap for unified mouse/keyboard
 
 ## Deployment
 - Live site: https://vercel-kvm.vercel.app/

@@ -14,7 +14,7 @@ Update the KVM Setup Guide (https://vercel-kvm.vercel.app/) to reflect a hardwar
 - All 3 computers (Personal Mac, Work Mac, HP Dock) connect to both monitors
 - Simplify connections using native DisplayPort where possible
 - Update both the full guide and interactive wizard
-- Maintain all existing functionality (Lunar, Barrier, hotkeys)
+- Maintain all existing functionality (Better Display, InputLeap, hotkeys)
 
 ## Approach: Simplified with DisplayPort
 
@@ -68,6 +68,7 @@ We're using **Approach B** which simplifies the setup by leveraging native Displ
 
 ### Add
 - ➕ 4-6x USB-C to DisplayPort cables
+- ➕ DisplayPort to HDMI adapters (for HP Dock connections)
 - 🔄 May reuse existing USB-C to HDMI cables for some connections
 
 ### Keep
@@ -77,14 +78,14 @@ We're using **Approach B** which simplifies the setup by leveraging native Displ
 
 ## Software Configuration
 
-### Lunar DDC/CI Updates
+### Better Display DDC/CI Updates
 - **Cmd+1**: Switch both monitors to Personal Mac
 - **Cmd+2**: Switch both monitors to Work Mac
 - **Cmd+3**: Switch both monitors to HP Dock
 - Remove all CENTER monitor input configurations
 - Update monitor detection to expect 2 monitors
 
-### Barrier
+### InputLeap
 - No changes needed (works the same with 2 monitors)
 
 ### Quick Reference Tables
