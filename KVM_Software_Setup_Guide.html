@@ -252,6 +252,7 @@
                 <a href="#better-display">🌙 Better Display</a>
                 <a href="#inputleap">⌨️ InputLeap</a>
                 <a href="#stream-deck">🎛️ Stream Deck</a>
+                <a href="#usb-switch">🔌 USB Switch</a>
                 <a href="#testing">✅ Testing</a>
                 <a href="#troubleshooting">🔧 Troubleshooting</a>
             </div>
@@ -269,7 +270,7 @@
                         <li><strong>Better Display:</strong> DDC/CI control to switch monitor inputs with keyboard shortcuts</li>
                         <li><strong>InputLeap:</strong> Share one keyboard and mouse across all computers</li>
                         <li><strong>Stream Deck (Optional):</strong> One-button switching for power users</li>
-                        <li><strong>USB Switch (Optional):</strong> Automated USB device switching</li>
+                        <li><strong>eKL USB Switch (Optional):</strong> Automated USB device switching via RS232 serial control</li>
                     </ul>
                 </div>
 
@@ -628,6 +629,289 @@
                     <span class="step-number">4</span>
                     <strong>Test Buttons</strong>
                     <p>Press each Stream Deck button to verify it switches both monitors correctly.</p>
+                </div>
+            </div>
+
+            <!-- USB SWITCH -->
+            <div class="section" id="usb-switch">
+                <h2>🔌 eKL USB Switch Setup (Optional)</h2>
+                <p>The eKL USB Switch allows you to share USB peripherals (webcam, microphone, USB drives, etc.) across all three computers with automated switching via RS232 serial control.</p>
+
+                <div class="info-box">
+                    <strong>What the USB Switch Does:</strong>
+                    <ul>
+                        <li>Share USB devices across all three computers</li>
+                        <li>Switch USB devices automatically when changing monitors</li>
+                        <li>Control via RS232 serial commands</li>
+                        <li>Integrate with Stream Deck for one-button switching</li>
+                    </ul>
+                </div>
+
+                <h3>Overview</h3>
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> This setup requires an eKL USB switch with RS232 serial control support. The switch connects to your computer via a USB-to-RS232 adapter.
+                </div>
+
+                <h3>Step 1: Hardware Connection</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Connect the USB Switch</strong>
+                    <ul>
+                        <li>Connect USB peripherals (webcam, mic, etc.) to the eKL USB switch's USB ports</li>
+                        <li>Connect USB output cables from the switch to each computer:
+                            <ul>
+                                <li>Port 1 → Personal Mac</li>
+                                <li>Port 2 → Work Mac</li>
+                                <li>Port 3 → HP Dock</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Connect RS232 Serial Cable</strong>
+                    <ul>
+                        <li>Connect the RS232 cable from the eKL switch to a USB-to-RS232 adapter</li>
+                        <li>Plug the USB-to-RS232 adapter into your Personal Mac (control computer)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Power On the Switch</strong>
+                    <p>Connect the power adapter to the eKL switch and verify the LED indicators light up.</p>
+                </div>
+
+                <h3>Step 2: Find the Serial Port</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Identify Serial Port Device (macOS)</strong>
+                    <p>Open Terminal and run:</p>
+                    <div class="code-block">ls /dev/tty.*</div>
+                    <p>Look for a device like <code>/dev/tty.usbserial-XXXXXXXX</code> or <code>/dev/tty.SLAB_USBtoUART</code></p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Note the Device Path</strong>
+                    <p>Save this path - you'll need it for controlling the switch. Example: <code>/dev/tty.usbserial-14210</code></p>
+                </div>
+
+                <h3>Step 3: Manual Control via Terminal</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Test Serial Communication</strong>
+                    <p>Most eKL switches use simple serial commands. The exact format depends on your model, but common formats are:</p>
+                    <div class="code-block"># Switch to Port 1 (Personal Mac)
+echo -e "\x01" > /dev/tty.usbserial-XXXXXXXX
+
+# Switch to Port 2 (Work Mac)
+echo -e "\x02" > /dev/tty.usbserial-XXXXXXXX
+
+# Switch to Port 3 (HP Dock)
+echo -e "\x03" > /dev/tty.usbserial-XXXXXXXX</div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Note:</strong> Serial command format varies by eKL model. Common formats include:
+                    <ul>
+                        <li>Hex bytes: <code>\x01</code>, <code>\x02</code>, <code>\x03</code></li>
+                        <li>Text commands: <code>sw i01</code>, <code>sw i02</code>, <code>sw i03</code></li>
+                        <li>Number commands: <code>1</code>, <code>2</code>, <code>3</code></li>
+                    </ul>
+                    Check your eKL switch manual for the exact command format.
+                </div>
+
+                <h3>Step 4: Create Control Scripts</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Create Helper Script</strong>
+                    <p>Save this as <code>~/switch-usb.sh</code>:</p>
+                    <div class="code-block">#!/bin/bash
+# USB Switch Control Script
+# Usage: ./switch-usb.sh [1|2|3]
+
+PORT=$1
+DEVICE="/dev/tty.usbserial-XXXXXXXX"  # Update with your device path
+
+if [ -z "$PORT" ]; then
+    echo "Usage: $0 [1|2|3]"
+    echo "  1 = Personal Mac"
+    echo "  2 = Work Mac"
+    echo "  3 = HP Dock"
+    exit 1
+fi
+
+case $PORT in
+    1)
+        echo -e "\x01" > $DEVICE
+        echo "Switched USB to Personal Mac"
+        ;;
+    2)
+        echo -e "\x02" > $DEVICE
+        echo "Switched USB to Work Mac"
+        ;;
+    3)
+        echo -e "\x03" > $DEVICE
+        echo "Switched USB to HP Dock"
+        ;;
+    *)
+        echo "Invalid port: $PORT"
+        exit 1
+        ;;
+esac</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Make Script Executable</strong>
+                    <div class="code-block">chmod +x ~/switch-usb.sh</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Test the Script</strong>
+                    <div class="code-block">~/switch-usb.sh 1  # Switch to Personal Mac
+~/switch-usb.sh 2  # Switch to Work Mac
+~/switch-usb.sh 3  # Switch to HP Dock</div>
+                </div>
+
+                <h3>Step 5: Stream Deck Integration</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Add System Command Actions</strong>
+                    <p>In Stream Deck software, enhance your existing computer-switching buttons:</p>
+                    <ul>
+                        <li><strong>Personal Mac button:</strong> Add "System: Open" action with command <code>/Users/yourusername/switch-usb.sh 1</code></li>
+                        <li><strong>Work Mac button:</strong> Add "System: Open" action with command <code>/Users/yourusername/switch-usb.sh 2</code></li>
+                        <li><strong>HP Dock button:</strong> Add "System: Open" action with command <code>/Users/yourusername/switch-usb.sh 3</code></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Configure Multi-Action</strong>
+                    <p>For each Stream Deck button, create a Multi-Action that:</p>
+                    <ol>
+                        <li>Sends Better Display hotkey (Cmd+1, Cmd+2, or Cmd+3)</li>
+                        <li>Runs the USB switch script (1, 2, or 3)</li>
+                    </ol>
+                    <p>This switches both monitors AND USB devices with one button press!</p>
+                </div>
+
+                <h3>Step 6: Better Display + USB Switching</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Create Combined Switching Scripts</strong>
+                    <p>Save as <code>~/switch-to-personal.sh</code>:</p>
+                    <div class="code-block">#!/bin/bash
+# Switch everything to Personal Mac
+osascript -e 'tell application "System Events" to keystroke "1" using command down'
+sleep 0.5
+~/switch-usb.sh 1</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Create Similar Scripts for Other Computers</strong>
+                    <p><code>~/switch-to-work.sh</code>:</p>
+                    <div class="code-block">#!/bin/bash
+osascript -e 'tell application "System Events" to keystroke "2" using command down'
+sleep 0.5
+~/switch-usb.sh 2</div>
+                    <p><code>~/switch-to-hp.sh</code>:</p>
+                    <div class="code-block">#!/bin/bash
+osascript -e 'tell application "System Events" to keystroke "3" using command down'
+sleep 0.5
+~/switch-usb.sh 3</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Make All Executable</strong>
+                    <div class="code-block">chmod +x ~/switch-to-*.sh</div>
+                </div>
+
+                <h3>Step 7: Test USB Switching</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Test Manual Switching</strong>
+                    <ul>
+                        <li>Run <code>~/switch-usb.sh 1</code> - USB devices should switch to Personal Mac</li>
+                        <li>Verify webcam/mic appear in Personal Mac's system</li>
+                        <li>Test other ports (2, 3) similarly</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Test Combined Switching</strong>
+                    <ul>
+                        <li>Run <code>~/switch-to-personal.sh</code> - Both monitors AND USB devices switch</li>
+                        <li>Verify everything switches together</li>
+                        <li>Test delay (adjust <code>sleep</code> value if needed)</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ USB Switch Working Correctly:</strong>
+                    <ul>
+                        <li>Serial commands successfully switch USB ports</li>
+                        <li>USB devices appear on the correct computer after switching</li>
+                        <li>Combined scripts switch monitors + USB together</li>
+                        <li>Stream Deck buttons (if configured) work correctly</li>
+                    </ul>
+                </div>
+
+                <h3>Advanced: Automatic Switching with Better Display</h3>
+
+                <div class="info-box">
+                    <strong>Pro Tip:</strong> You can configure Better Display to automatically run your USB switch scripts when changing inputs. Check Better Display's scripting/automation settings to run custom commands on input change.
+                </div>
+
+                <h3>Troubleshooting USB Switch</h3>
+
+                <div class="step">
+                    <strong>Problem: Serial Port Not Found</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Check USB-to-RS232 adapter is connected</li>
+                        <li>Install driver for USB-to-RS232 adapter if needed (FTDI, Prolific, or Silicon Labs drivers)</li>
+                        <li>Try different USB port</li>
+                        <li>Run <code>ls /dev/tty.*</code> before and after plugging in adapter to identify the device</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: Switch Doesn't Respond to Commands</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Verify command format matches your eKL switch model</li>
+                        <li>Check RS232 cable connections (TX/RX not reversed)</li>
+                        <li>Try different baud rate if your switch requires specific settings</li>
+                        <li>Use <code>screen</code> or <code>minicom</code> to test raw serial communication</li>
+                        <li>Consult your eKL switch manual for exact command protocol</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: USB Devices Don't Appear After Switching</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Verify eKL switch has power</li>
+                        <li>Check USB cables from switch to computers are connected</li>
+                        <li>Try manually pressing the switch button to verify hardware works</li>
+                        <li>Wait a few seconds for computer to detect USB devices</li>
+                        <li>Some devices may need to be unplugged/replugged once</li>
+                    </ul>
                 </div>
             </div>
 
