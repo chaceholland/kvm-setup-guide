@@ -953,19 +953,33 @@
                     {
                         id: '3b',
                         title: 'RIGHT Monitor',
-                        subtitle: 'VGA connection',
-                        equipment: [],
+                        subtitle: 'Same as LEFT',
+                        equipment: [
+                            { name: 'DP to HDMI Adapter', img: 'https://m.media-amazon.com/images/I/61Zp8vY5gYL._AC_SL1500_.jpg', note: 'Converts DP to HDMI' },
+                            { name: 'EDID 1440p', img: 'https://m.media-amazon.com/images/I/512Jgn92IEL._AC_SX679_.jpg', note: 'Pink label' },
+                            { name: 'Coupler', img: 'https://m.media-amazon.com/images/I/717oGK8uZOL._AC_SL1500_.jpg', note: 'Female-Female' },
+                            { name: 'BENFEI', img: 'https://m.media-amazon.com/images/I/61epo1+QzrL._SL1500_.jpg', note: 'HDMI→DP' }
+                        ],
                         detailedSteps: [
                             { text: 'Locate second DisplayPort output on HP Dock', tip: 'Use a different DP port than LEFT' },
-                            { text: 'Connect DP to VGA cable to HP Dock', tip: null },
-                            { text: 'Plug VGA end into RIGHT monitor', tip: 'Use the VGA input' }
+                            { text: 'Connect DP to HDMI adapter to HP Dock DP port', tip: null },
+                            { text: 'Connect HDMI cable from adapter to EDID 1440p', tip: null },
+                            { text: 'Attach Coupler to EDID output', tip: null },
+                            { text: 'Connect BENFEI adapter to Coupler', tip: null },
+                            { text: 'Plug BENFEI USB power into USB wall adapter', tip: '⚡ Required for BENFEI!' },
+                            { text: 'Run DP cable from BENFEI to RIGHT monitor', tip: 'Consistent quality on both monitors!' }
                         ],
                         signalChain: [
                             { text: 'HP Dock DP #2', class: 'chain-computer' },
-                            { text: 'DP to VGA Cable', class: 'chain-cable' },
+                            { text: 'DP to HDMI Adapter', class: 'chain-adapter', img: 'https://m.media-amazon.com/images/I/61Zp8vY5gYL._AC_SL1500_.jpg' },
+                            { text: 'HDMI Cable', class: 'chain-cable' },
+                            { text: 'EDID 1440p', class: 'chain-edid', img: 'https://m.media-amazon.com/images/I/512Jgn92IEL._AC_SX679_.jpg' },
+                            { text: 'Coupler', class: 'chain-coupler', img: 'https://m.media-amazon.com/images/I/717oGK8uZOL._AC_SL1500_.jpg' },
+                            { text: 'BENFEI', class: 'chain-adapter', img: 'https://m.media-amazon.com/images/I/61epo1+QzrL._SL1500_.jpg' },
+                            { text: 'DP Cable', class: 'chain-cable' },
                             { text: 'RIGHT Monitor VGA', class: 'chain-monitor' }
                         ],
-                        tip: { title: 'Simple and Done!', text: 'Another easy direct connection. HP Dock setup is the simplest of all three!' }
+                        tip: { title: 'Simple and Done!', text: 'Same setup as LEFT - consistent equipment makes troubleshooting easier!' }
                     }
                 ]
             },
