@@ -557,13 +557,15 @@
                 </div>
 
                 <div style="background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px; padding: 20px; margin-bottom: 25px;">
-                    <h3 style="color: #e65100; margin-bottom: 15px;">⚠️ Important: Why Direct Connections?</h3>
+                    <h3 style="color: #e65100; margin-bottom: 15px;">⚠️ Important: Input Type Assignment</h3>
                     <p style="color: #555; line-height: 1.6;">
-                        <strong>DDC/CI (Display Data Channel Command Interface)</strong> is required for Better Display to switch monitor inputs automatically.
-                        The UGREEN hubs block these commands when video passes through them, which is why we use <strong>direct USB-C to HDMI connections</strong> for the MacBooks.
+                        <strong>Each computer uses a different input type:</strong><br>
+                        • Personal Mac → HDMI (simplest, no extra adapters)<br>
+                        • Work Mac → DisplayPort (via BENFEI HDMI→DP adapter)<br>
+                        • HP Dock → USB-C (via DP→HDMI→USB-C conversion)
                     </p>
                     <p style="color: #555; line-height: 1.6; margin-top: 10px;">
-                        The UGREEN hubs are still used for <strong>Ethernet only</strong> - plug them into USB-C port 3 on each MacBook.
+                        Better Display uses DDC/CI to switch both monitors to the same input type simultaneously with one hotkey press.
                     </p>
                 </div>
 
@@ -604,7 +606,11 @@
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
                         <tr style="border-bottom: 1px solid #e0e0e0;">
                             <td style="padding: 10px;"><strong>Better Display (DDC/CI)</strong></td>
-                            <td style="padding: 10px;">Switch monitor inputs via Cmd+1/2/3 hotkeys</td>
+                            <td style="padding: 10px;">
+                                Cmd+1: Switch both monitors to HDMI (Personal Mac)<br>
+                                Cmd+2: Switch both monitors to DisplayPort (Work Mac)<br>
+                                Cmd+3: Switch both monitors to USB-C (HP Dock)
+                            </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #e0e0e0;">
                             <td style="padding: 10px;"><strong>InputLeap</strong></td>
