@@ -609,19 +609,19 @@
                         <div class="tab-badge">✓</div>
                         <div class="tab-icon">💻</div>
                         <div class="tab-title">Personal MacBook</div>
-                        <div class="tab-progress"><span class="done-count">0</span>/3 connections</div>
+                        <div class="tab-progress"><span class="done-count">0</span>/2 connections</div>
                     </div>
                     <div class="computer-tab work" onclick="selectComputer('work')" data-computer="work">
                         <div class="tab-badge">✓</div>
                         <div class="tab-icon">🖥️</div>
                         <div class="tab-title">Work MacBook</div>
-                        <div class="tab-progress"><span class="done-count">0</span>/3 connections</div>
+                        <div class="tab-progress"><span class="done-count">0</span>/2 connections</div>
                     </div>
                     <div class="computer-tab hp" onclick="selectComputer('hp')" data-computer="hp">
                         <div class="tab-badge">✓</div>
                         <div class="tab-icon">🏢</div>
                         <div class="tab-title">HP Dock</div>
-                        <div class="tab-progress"><span class="done-count">0</span>/3 connections</div>
+                        <div class="tab-progress"><span class="done-count">0</span>/2 connections</div>
                     </div>
                     <div class="computer-tab software" onclick="selectComputer('software')" data-computer="software" style="background: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%);">
                         <div class="tab-badge">✓</div>
@@ -1166,7 +1166,10 @@
         }
 
         function updateProgress() {
-            const total = 13;
+            const total = wizardData.personal.steps.length +
+                         wizardData.work.steps.length +
+                         wizardData.hp.steps.length +
+                         wizardData.software.steps.length;
             const completed = completedSteps.size;
             const percent = Math.round((completed / total) * 100);
 
@@ -1177,20 +1180,24 @@
             document.getElementById('progressText').textContent = `${completed} of ${total} steps`;
 
             // Update milestones
-            const personalDone = wizardData.personal.steps.filter(s => completedSteps.has(s.id)).length === 3;
-            const workDone = wizardData.work.steps.filter(s => completedSteps.has(s.id)).length === 3;
-            const hpDone = wizardData.hp.steps.filter(s => completedSteps.has(s.id)).length === 3;
-            const softwareDone = wizardData.software.steps.filter(s => completedSteps.has(s.id)).length === 4;
+            const personalDone = wizardData.personal.steps.filter(s => completedSteps.has(s.id)).length === wizardData.personal.steps.length;
+            const workDone = wizardData.work.steps.filter(s => completedSteps.has(s.id)).length === wizardData.work.steps.length;
+            const hpDone = wizardData.hp.steps.filter(s => completedSteps.has(s.id)).length === wizardData.hp.steps.length;
+            const softwareDone = wizardData.software.steps.filter(s => completedSteps.has(s.id)).length === wizardData.software.steps.length;
 
             document.querySelector('[data-milestone="personal"]').classList.toggle('completed', personalDone);
             document.querySelector('[data-milestone="work"]').classList.toggle('completed', workDone);
             document.querySelector('[data-milestone="hp"]').classList.toggle('completed', hpDone);
             document.querySelector('[data-milestone="software"]').classList.toggle('completed', softwareDone);
-            document.querySelector('[data-milestone="complete"]').classList.toggle('completed', completed === 13);
+            document.querySelector('[data-milestone="complete"]').classList.toggle('completed', completed === total);
         }
 
         function checkCompletion() {
-            if (completedSteps.size === 13) {
+            const total = wizardData.personal.steps.length +
+                         wizardData.work.steps.length +
+                         wizardData.hp.steps.length +
+                         wizardData.software.steps.length;
+            if (completedSteps.size === total) {
                 document.getElementById('wizardMain').style.display = 'none';
                 document.querySelector('.computer-selector').style.display = 'none';
                 document.getElementById('wizardComplete').classList.add('show');
