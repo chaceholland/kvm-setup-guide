@@ -2,15 +2,21 @@
 
 Complete visual guide for connecting 3 computers to 2 monitors with KVM functionality.
 
-## Current Setup (v3.0.0)
+## Current Setup
 - **Monitors:** 2x Samsung ViewFinity S65UC 34" (LS34C650UANXGO)
 - **Computers:** Personal Mac, Work Mac, HP Dock
-- **Features:** DDC/CI switching via Lunar (direct connections), Barrier for unified mouse/keyboard
-- **Connection Method:** Direct USB-C/DP to HDMI for DDC/CI compatibility
+- **Features:** DDC/CI switching via Better Display, InputLeap for unified mouse/keyboard
 
-## Recent Updates
-- **v3.0.0:** Fixed DDC/CI issues by using direct connections instead of hubs for video
-- **v2.0.0:** Migration to 2 Samsung ViewFinity monitors
+## Monitor Inputs
+Each Samsung ViewFinity S65UC has:
+- 1x HDMI 2.0 input
+- 1x DisplayPort 1.2 input
+- 1x USB-C input (with DisplayPort Alt Mode, 90W power delivery)
+
+## Connection Strategy
+- All 3 computers connect to both monitors using different input types
+- Better Display switches monitor inputs via DDC/CI commands
+- Hotkeys (Cmd+1/2/3) switch all monitors simultaneously
 
 ## Deployment
 - Live site: https://vercel-kvm.vercel.app/
@@ -21,3 +27,6 @@ Complete visual guide for connecting 3 computers to 2 monitors with KVM function
 - Single-file HTML application
 - No build process required
 - Edit `index.html` and copy to `public/` for deployment
+
+## Version
+Current version: 2.0.0 (2-monitor setup)
