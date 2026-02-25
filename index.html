@@ -858,32 +858,31 @@
                     {
                         id: '2a',
                         title: 'LEFT Monitor',
-                        subtitle: 'Using UGREEN Hub #2',
+                        subtitle: 'Direct USB-C connection',
                         equipment: [
-                            { name: 'UGREEN Hub #2', img: 'https://m.media-amazon.com/images/I/71J-XDeu4nL._AC_SX679_.jpg', note: 'Second hub' },
-                            { name: 'EDID 1080p', img: 'https://m.media-amazon.com/images/I/512Jgn92IEL._AC_SX679_.jpg', note: 'Pink label' },
+                            { name: 'USB-C to HDMI', img: 'https://m.media-amazon.com/images/I/61dPxJI54+L._AC_SL1393_.jpg', note: 'Direct cable' },
+                            { name: 'EDID 1440p', img: 'https://m.media-amazon.com/images/I/512Jgn92IEL._AC_SX679_.jpg', note: 'Pink label' },
                             { name: 'Coupler', img: 'https://m.media-amazon.com/images/I/717oGK8uZOL._AC_SL1500_.jpg', note: 'Female-Female' },
                             { name: 'BENFEI', img: 'https://m.media-amazon.com/images/I/61epo1+QzrL._SL1500_.jpg', note: 'HDMI→DP' }
                         ],
                         detailedSteps: [
-                            { text: 'Plug UGREEN Hub #2 into Work MacBook USB-C', tip: 'Keep hub #1 for Personal Mac' },
-                            { text: 'Connect HDMI cable from Hub to EDID 1080p', tip: null },
+                            { text: 'Plug USB-C to HDMI cable into Work MacBook USB-C port', tip: 'Use port 1 for LEFT monitor' },
+                            { text: 'Connect HDMI end to EDID 1440p emulator', tip: 'Use 1440p for best quality' },
                             { text: 'Attach Coupler to EDID output', tip: null },
                             { text: 'Connect BENFEI adapter to Coupler', tip: null },
-                            { text: 'Plug BENFEI USB power into Hub USB-A port', tip: '⚡ Essential for BENFEI to work!' },
+                            { text: 'Plug BENFEI USB power into USB wall adapter', tip: '⚡ Essential for BENFEI to work!' },
                             { text: 'Run DP cable from BENFEI to LEFT monitor', tip: 'Use a high-quality VESA certified DP cable' }
                         ],
                         signalChain: [
                             { text: 'Work Mac USB-C', class: 'chain-computer' },
-                            { text: 'UGREEN Hub #2', class: 'chain-adapter', img: 'https://m.media-amazon.com/images/I/71J-XDeu4nL._AC_SX679_.jpg' },
-                            { text: 'HDMI Cable', class: 'chain-cable' },
-                            { text: 'EDID 1080p', class: 'chain-edid', img: 'https://m.media-amazon.com/images/I/512Jgn92IEL._AC_SX679_.jpg' },
+                            { text: 'USB-C to HDMI', class: 'chain-cable', img: 'https://m.media-amazon.com/images/I/61dPxJI54+L._AC_SL1393_.jpg' },
+                            { text: 'EDID 1440p', class: 'chain-edid', img: 'https://m.media-amazon.com/images/I/512Jgn92IEL._AC_SX679_.jpg' },
                             { text: 'Coupler', class: 'chain-coupler', img: 'https://m.media-amazon.com/images/I/717oGK8uZOL._AC_SL1500_.jpg' },
                             { text: 'BENFEI', class: 'chain-adapter', img: 'https://m.media-amazon.com/images/I/61epo1+QzrL._SL1500_.jpg' },
                             { text: 'DP Cable', class: 'chain-cable' },
                             { text: 'LEFT Monitor', class: 'chain-monitor' }
                         ],
-                        warning: { title: 'Don\'t forget USB Power!', text: 'Connect the BENFEI USB power cable to the Hub.' }
+                        warning: { title: 'Don\'t forget USB Power!', text: 'The BENFEI adapter requires USB power to function. Plug the USB cable into a USB wall adapter or the UGREEN Hub\'s USB-A port (hub used for Ethernet only).' }
                     },
                     {
                         id: '2b',
