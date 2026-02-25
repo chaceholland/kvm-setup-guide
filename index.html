@@ -878,7 +878,7 @@
                             { text: 'Enable Accessibility permission for Lunar', tip: 'Required for DDC/CI communication' },
                             { text: 'Enable Screen Recording permission for Lunar', tip: 'Required for some monitor features' },
                             { text: 'Quit and reopen Lunar', tip: 'Permissions take effect after restart' },
-                            { text: 'Verify all 3 monitors appear in Lunar menu bar icon', tip: 'If missing, check BENFEI USB power and cables' }
+                            { text: 'Verify all 2 monitors appear in Lunar menu bar icon', tip: 'If missing, check BENFEI USB power and cables' }
                         ],
                         signalChain: [
                             { text: 'Homebrew/Download', class: 'chain-computer' },
@@ -897,9 +897,9 @@
                             { text: 'Open Lunar Preferences (Cmd+,)', tip: null },
                             { text: 'Go to "Hotkeys" tab', tip: null },
                             { text: 'Find "Input Source" section', tip: 'This controls monitor input switching' },
-                            { text: 'Set Cmd+1 to switch all monitors to Personal Mac inputs (DP/HDMI/DP)', tip: 'Maps to: LEFT=DP, CENTER=HDMI, RIGHT=DP' },
-                            { text: 'Set Cmd+2 to switch all monitors to Work Mac inputs (DP/HDMI/DP)', tip: 'CENTER via HDMI Switch IN1' },
-                            { text: 'Set Cmd+3 to switch all monitors to HP Dock inputs (VGA/HDMI/VGA)', tip: 'CENTER via HDMI Switch IN2' },
+                            { text: 'Set Cmd+1 to switch both monitors to Personal Mac inputs (DP/DP)', tip: 'Maps to: LEFT=DP, RIGHT=DP' },
+                            { text: 'Set Cmd+2 to switch both monitors to Work Mac inputs (DP/DP)', tip: 'Both via direct DP or adapters' },
+                            { text: 'Set Cmd+3 to switch both monitors to HP Dock inputs (VGA/VGA)', tip: 'Both via VGA adapters' },
                             { text: 'Test each hotkey to verify switching works', tip: 'Press Cmd+1/2/3 and watch monitors change' }
                         ],
                         signalChain: [
@@ -940,11 +940,10 @@
                         subtitle: '✅ Test Everything',
                         equipment: [],
                         detailedSteps: [
-                            { text: 'Press Cmd+1 - All monitors should switch to Personal Mac', tip: 'If not working, check Lunar permissions and DDC/CI' },
-                            { text: 'Press Cmd+2 - All monitors should switch to Work Mac', tip: 'CENTER may need HDMI switch press for Work/HP' },
-                            { text: 'Press Cmd+3 - LEFT/RIGHT switch to HP, CENTER needs HDMI switch', tip: 'Press HDMI switch button for CENTER' },
+                            { text: 'Press Cmd+1 - Both monitors should switch to Personal Mac', tip: 'If not working, check Lunar permissions and DDC/CI' },
+                            { text: 'Press Cmd+2 - Both monitors should switch to Work Mac', tip: 'Check DP connections' },
+                            { text: 'Press Cmd+3 - Both monitors should switch to HP Dock', tip: 'Via VGA connections' },
                             { text: 'Move mouse to screen edge - Cursor moves to other computer via Barrier', tip: 'Verify keyboard works on the other computer too' },
-                            { text: 'Press HDMI switch button - CENTER toggles between Work and HP', tip: 'Physical button on the switch device' },
                             { text: 'Unplug and replug a display cable - Windows stay in place!', tip: 'EDID emulators prevent window rearranging' },
                             { text: '🎉 Celebrate - Your KVM setup is complete!', tip: null }
                         ],
@@ -954,7 +953,7 @@
                             { text: 'Test Switches', class: 'chain-switch' },
                             { text: '🎉 Complete!', class: 'chain-monitor' }
                         ],
-                        tip: { title: 'All Done!', text: 'Your setup is complete! Use Cmd+1/2/3 to switch monitors, Barrier for mouse/keyboard, and physical switches for USB and CENTER HDMI.' }
+                        tip: { title: 'All Done!', text: 'Your setup is complete! Use Cmd+1/2/3 to switch monitors, Barrier for mouse/keyboard, and physical USB switch for peripherals.' }
                     }
                 ]
             }
