@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVM Software Setup Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            padding: 10px 20px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin: 25px 0 15px 0;
+        }
+
+        .section h4 {
+            color: #333;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .critical-box {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .hotkey {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin: 30px 0;
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .screenshot {
+            max-width: 100%;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💻 KVM Software Setup Guide</h1>
+            <p>Configure Better Display, InputLeap, and advanced automation for seamless multi-computer switching</p>
+        </div>
+
+        <div class="nav">
+            <div class="nav-links">
+                <a href="#better-display">🌙 Better Display</a>
+                <a href="#inputleap">⌨️ InputLeap</a>
+                <a href="#stream-deck">🎛️ Stream Deck</a>
+                <a href="#testing">✅ Testing</a>
+                <a href="#troubleshooting">🔧 Troubleshooting</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- OVERVIEW -->
+            <div class="section">
+                <h2>📋 Overview</h2>
+                <p>Now that your hardware is connected, configure the software to enable seamless switching between your three computers (Personal Mac, Work Mac, HP Dock) and two monitors.</p>
+
+                <div class="info-box">
+                    <strong>What You'll Set Up:</strong>
+                    <ul>
+                        <li><strong>Better Display:</strong> DDC/CI control to switch monitor inputs with keyboard shortcuts</li>
+                        <li><strong>InputLeap:</strong> Share one keyboard and mouse across all computers</li>
+                        <li><strong>Stream Deck (Optional):</strong> One-button switching for power users</li>
+                        <li><strong>USB Switch (Optional):</strong> Automated USB device switching</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Important: Input Type Configuration</strong><br>
+                    Each computer uses a different monitor input type:
+                    <ul>
+                        <li>🟢 <strong>Personal Mac:</strong> HDMI (Cmd+1)</li>
+                        <li>🟠 <strong>Work Mac:</strong> DisplayPort (Cmd+2)</li>
+                        <li>🟣 <strong>HP Dock:</strong> USB-C (Cmd+3)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- BETTER DISPLAY -->
+            <div class="section" id="better-display">
+                <h2>🌙 Better Display Setup</h2>
+                <p>Better Display uses DDC/CI (Display Data Channel Command Interface) to control your monitors via software, allowing you to switch inputs with keyboard shortcuts.</p>
+
+                <h3>Step 1: Download and Install</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Download Better Display</strong>
+                    <p>Visit <a href="https://github.com/waydabber/BetterDisplay" target="_blank">https://github.com/waydabber/BetterDisplay</a> and download the latest release.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Install the Application</strong>
+                    <p>Open the downloaded DMG file and drag Better Display to your Applications folder.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Launch Better Display</strong>
+                    <p>Open Better Display from your Applications folder. It will appear in your menu bar.</p>
+                </div>
+
+                <h3>Step 2: Grant Permissions</h3>
+                <div class="critical-box">
+                    <strong>🔐 Required Permissions</strong><br>
+                    Better Display needs specific macOS permissions to control your monitors via DDC/CI.
+                </div>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Accessibility Permission</strong>
+                    <p>When prompted, grant Better Display <strong>Accessibility</strong> access:</p>
+                    <ol>
+                        <li>Open <strong>System Settings</strong> → <strong>Privacy & Security</strong> → <strong>Accessibility</strong></li>
+                        <li>Click the <strong>+</strong> button or toggle Better Display ON</li>
+                        <li>Confirm the change with your password</li>
+                    </ol>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Screen Recording Permission (if prompted)</strong>
+                    <p>Grant <strong>Screen Recording</strong> permission if requested for advanced features.</p>
+                </div>
+
+                <h3>Step 3: Verify Monitor Detection</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Check Menu Bar</strong>
+                    <p>Click the Better Display icon in your menu bar. You should see both Samsung ViewFinity S65UC monitors listed.</p>
+                </div>
+
+                <div class="info-box">
+                    <strong>Expected Display:</strong>
+                    <ul>
+                        <li>Samsung S65UC (LEFT)</li>
+                        <li>Samsung S65UC (RIGHT)</li>
+                    </ul>
+                    If you don't see both monitors, check your connections and restart Better Display.
+                </div>
+
+                <h3>Step 4: Configure Input Source Hotkeys</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Open Better Display Preferences</strong>
+                    <p>Press <span class="hotkey">Cmd+,</span> or click Better Display menu bar icon → <strong>Preferences</strong></p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Navigate to Hotkeys</strong>
+                    <p>In the preferences window, click the <strong>Keyboard</strong> or <strong>Hotkeys</strong> tab.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Configure Input Source Shortcuts</strong>
+                    <p>Find the <strong>"Input Source"</strong> or <strong>"DDC/CI Input"</strong> section and set up these hotkeys:</p>
+
+                    <table>
+                        <tr>
+                            <th>Hotkey</th>
+                            <th>Input Type</th>
+                            <th>Computer</th>
+                        </tr>
+                        <tr>
+                            <td><span class="hotkey">Cmd+1</span></td>
+                            <td>HDMI</td>
+                            <td>🟢 Personal Mac</td>
+                        </tr>
+                        <tr>
+                            <td><span class="hotkey">Cmd+2</span></td>
+                            <td>DisplayPort</td>
+                            <td>🟠 Work Mac</td>
+                        </tr>
+                        <tr>
+                            <td><span class="hotkey">Cmd+3</span></td>
+                            <td>USB-C</td>
+                            <td>🟣 HP Dock</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Apply to All Monitors</strong>
+                    <p>Make sure the hotkeys are configured to switch <strong>ALL displays simultaneously</strong>, not just one monitor.</p>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Important Configuration Notes:</strong>
+                    <ul>
+                        <li>Each hotkey should switch <strong>BOTH monitors</strong> to the same input type</li>
+                        <li>Direct USB-C video connections are required (not through hubs) for DDC/CI to work</li>
+                        <li>The Samsung ViewFinity S65UC supports DDC/CI on all input types</li>
+                    </ul>
+                </div>
+
+                <h3>Step 5: Test Input Switching</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Test Each Hotkey</strong>
+                    <p>With all three computers connected and powered on:</p>
+                    <ul>
+                        <li>Press <span class="hotkey">Cmd+1</span> - Both monitors should switch to HDMI (Personal Mac)</li>
+                        <li>Press <span class="hotkey">Cmd+2</span> - Both monitors should switch to DisplayPort (Work Mac)</li>
+                        <li>Press <span class="hotkey">Cmd+3</span> - Both monitors should switch to USB-C (HP Dock)</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ Success Indicators:</strong>
+                    <ul>
+                        <li>Both monitors switch inputs simultaneously</li>
+                        <li>Switching happens within 1-2 seconds</li>
+                        <li>No flickering or errors</li>
+                        <li>Display appears on the correct computer</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- INPUTLEAP -->
+            <div class="section" id="inputleap">
+                <h2>⌨️ InputLeap Setup</h2>
+                <p>InputLeap allows you to share one keyboard and mouse across all three computers over your local network.</p>
+
+                <h3>Overview</h3>
+                <div class="info-box">
+                    <strong>How InputLeap Works:</strong>
+                    <ul>
+                        <li>One computer acts as the <strong>Server</strong> (hosts the keyboard/mouse)</li>
+                        <li>Other computers are <strong>Clients</strong> (receive input from server)</li>
+                        <li>Move mouse to screen edge to switch between computers</li>
+                        <li>Keyboard automatically follows the mouse</li>
+                    </ul>
+                    <strong>Recommended Configuration:</strong> Personal Mac = Server, Work Mac & HP Laptop = Clients
+                </div>
+
+                <h3>Step 1: Install InputLeap on All Computers</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Download InputLeap</strong>
+                    <p>Visit <a href="https://github.com/input-leap/input-leap" target="_blank">https://github.com/input-leap/input-leap</a> and download the latest release for each operating system:</p>
+                    <ul>
+                        <li><strong>Personal Mac:</strong> macOS version (.dmg)</li>
+                        <li><strong>Work Mac:</strong> macOS version (.dmg)</li>
+                        <li><strong>HP Laptop:</strong> Windows version (.msi or .exe)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Install on Each Computer</strong>
+                    <p>Run the installer on each computer and follow the installation prompts.</p>
+                </div>
+
+                <h3>Step 2: Configure Network Connections</h3>
+
+                <div class="warning-box">
+                    <strong>⚠️ Network Requirement:</strong> All computers must be on the same local network. Use the UGREEN hubs to connect your MacBooks via Ethernet for best performance.
+                </div>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Connect Ethernet Cables</strong>
+                    <ul>
+                        <li>Plug UGREEN Hub #1 into Personal Mac's USB-C port</li>
+                        <li>Plug UGREEN Hub #2 into Work Mac's USB-C port</li>
+                        <li>Connect Ethernet cables from both hubs to your router/switch</li>
+                        <li>HP Laptop should be on the same network (Ethernet or Wi-Fi)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Note IP Addresses</strong>
+                    <p>Find each computer's local IP address:</p>
+                    <ul>
+                        <li><strong>macOS:</strong> System Settings → Network → (select connection) → IP address shows as "192.168.x.x"</li>
+                        <li><strong>Windows:</strong> Settings → Network → Properties → IPv4 address</li>
+                    </ul>
+                </div>
+
+                <h3>Step 3: Configure Server (Personal Mac)</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Launch InputLeap</strong>
+                    <p>Open InputLeap on your Personal Mac.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Select Server Mode</strong>
+                    <p>Choose <strong>"Server"</strong> mode in the InputLeap interface.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Configure Screen Layout</strong>
+                    <p>Click <strong>"Configure Server"</strong> and arrange the virtual screens to match your physical setup:</p>
+                    <ul>
+                        <li>Drag and drop screen icons to match your desk layout</li>
+                        <li>Personal Mac (center or left)</li>
+                        <li>Work Mac (adjacent to Personal)</li>
+                        <li>HP Laptop (on the other side)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Start the Server</strong>
+                    <p>Click <strong>"Start"</strong> to begin hosting keyboard/mouse sharing.</p>
+                </div>
+
+                <h3>Step 4: Configure Clients (Work Mac & HP Laptop)</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Launch InputLeap on Work Mac</strong>
+                    <p>Open InputLeap on Work Mac.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Select Client Mode</strong>
+                    <p>Choose <strong>"Client"</strong> mode.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Enter Server IP Address</strong>
+                    <p>Enter the Personal Mac's IP address (from Step 2) in the <strong>"Server IP"</strong> field.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Start the Client</strong>
+                    <p>Click <strong>"Start"</strong> to connect to the server.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Repeat for HP Laptop</strong>
+                    <p>Follow the same steps on the HP Laptop to configure it as a client.</p>
+                </div>
+
+                <h3>Step 5: Test Keyboard/Mouse Sharing</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Test Mouse Movement</strong>
+                    <p>Move your mouse to the edge of the Personal Mac screen. The cursor should appear on the adjacent computer's screen.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Test Keyboard</strong>
+                    <p>When the cursor is on a different computer, type something to verify keyboard input works.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Test Copy/Paste</strong>
+                    <p>Copy text on one computer and paste it on another to verify clipboard sharing works.</p>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ InputLeap Working Correctly:</strong>
+                    <ul>
+                        <li>Mouse moves seamlessly between screens</li>
+                        <li>Keyboard works on whichever computer has the cursor</li>
+                        <li>Clipboard syncs between computers</li>
+                        <li>No lag or connection issues</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- STREAM DECK (OPTIONAL) -->
+            <div class="section" id="stream-deck">
+                <h2>🎛️ Stream Deck Integration (Optional)</h2>
+                <p>If you have an Elgato Stream Deck, you can create one-button shortcuts to switch computers instantly.</p>
+
+                <div class="info-box">
+                    <strong>What Stream Deck Can Do:</strong>
+                    <ul>
+                        <li>Single button press switches monitor inputs (via Better Display)</li>
+                        <li>Can trigger USB switch automation (advanced)</li>
+                        <li>Visual feedback showing which computer is active</li>
+                    </ul>
+                </div>
+
+                <h3>Stream Deck Setup</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Install Stream Deck Software</strong>
+                    <p>Download and install the Stream Deck app from <a href="https://www.elgato.com/stream-deck" target="_blank">Elgato's website</a>.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Create Hotkey Buttons</strong>
+                    <p>Add <strong>"Hotkey"</strong> actions to three buttons:</p>
+                    <ul>
+                        <li><strong>Button 1:</strong> "Personal Mac" - Sends <span class="hotkey">Cmd+1</span></li>
+                        <li><strong>Button 2:</strong> "Work Mac" - Sends <span class="hotkey">Cmd+2</span></li>
+                        <li><strong>Button 3:</strong> "HP Dock" - Sends <span class="hotkey">Cmd+3</span></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Customize Button Icons</strong>
+                    <p>Add custom icons or labels to make each button easily identifiable (🟢 Personal, 🟠 Work, 🟣 HP).</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Test Buttons</strong>
+                    <p>Press each Stream Deck button to verify it switches both monitors correctly.</p>
+                </div>
+            </div>
+
+            <!-- TESTING -->
+            <div class="section" id="testing">
+                <h2>✅ Complete System Testing</h2>
+                <p>Verify everything works together seamlessly.</p>
+
+                <h3>Test Checklist</h3>
+
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Monitor Input Switching</strong>
+                    <ul>
+                        <li>Press <span class="hotkey">Cmd+1</span> - Both monitors show Personal Mac</li>
+                        <li>Press <span class="hotkey">Cmd+2</span> - Both monitors show Work Mac</li>
+                        <li>Press <span class="hotkey">Cmd+3</span> - Both monitors show HP Dock</li>
+                        <li>All switches happen within 1-2 seconds</li>
+                        <li>No errors or black screens</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Keyboard/Mouse Sharing</strong>
+                    <ul>
+                        <li>Mouse moves between all three computers</li>
+                        <li>Keyboard works on each computer</li>
+                        <li>Copy/paste works across computers</li>
+                        <li>No lag or stuttering</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>EDID Emulator Function</strong>
+                    <ul>
+                        <li>Unplug a display cable - windows stay in place on that computer</li>
+                        <li>Switch monitor inputs - windows don't rearrange</li>
+                        <li>Reboot computer - display layout restores correctly</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>BENFEI USB Power (Work Mac)</strong>
+                    <ul>
+                        <li>Verify USB power cable is connected to BENFEI adapters</li>
+                        <li>Work Mac displays on both monitors via DisplayPort</li>
+                        <li>No flickering or signal loss</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <strong>🎉 System Complete!</strong><br>
+                    If all tests pass, your KVM setup is fully operational. You can now seamlessly work across all three computers with one keyboard, mouse, and monitor setup.
+                </div>
+            </div>
+
+            <!-- TROUBLESHOOTING -->
+            <div class="section" id="troubleshooting">
+                <h2>🔧 Troubleshooting</h2>
+
+                <h3>Better Display Issues</h3>
+
+                <div class="step">
+                    <strong>Problem: Monitors Don't Switch Inputs</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Verify Accessibility permission is granted in System Settings</li>
+                        <li>Check that you're using direct USB-C video connections (not through hubs)</li>
+                        <li>Restart Better Display from the menu bar</li>
+                        <li>Confirm monitors support DDC/CI (Samsung ViewFinity S65UC does)</li>
+                        <li>Try manually switching inputs using monitor OSD to verify input type names</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: Only One Monitor Switches</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Check that hotkeys are configured for "All Displays" not just one</li>
+                        <li>Verify both monitors appear in Better Display menu</li>
+                        <li>Check USB-C connections are secure on both monitors</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: Hotkeys Don't Work</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Check for keyboard shortcut conflicts in System Settings → Keyboard → Shortcuts</li>
+                        <li>Try different hotkey combinations</li>
+                        <li>Restart Better Display</li>
+                    </ul>
+                </div>
+
+                <h3>InputLeap Issues</h3>
+
+                <div class="step">
+                    <strong>Problem: Client Can't Connect to Server</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Verify all computers are on the same network</li>
+                        <li>Check server IP address is correct</li>
+                        <li>Disable firewall temporarily to test connectivity</li>
+                        <li>Ping server from client to verify network connection</li>
+                        <li>Restart InputLeap on both server and client</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: Mouse Lag or Stuttering</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Use Ethernet connections instead of Wi-Fi for MacBooks</li>
+                        <li>Check network congestion</li>
+                        <li>Close bandwidth-heavy applications</li>
+                        <li>Reduce InputLeap quality settings if needed</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: Keyboard Doesn't Work on Client</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Verify InputLeap is running on both server and client</li>
+                        <li>Check Accessibility permissions on both computers</li>
+                        <li>Restart InputLeap services</li>
+                    </ul>
+                </div>
+
+                <h3>Hardware Issues</h3>
+
+                <div class="step">
+                    <strong>Problem: Work Mac DisplayPort Not Working</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Check BENFEI USB power cable is connected and powered</li>
+                        <li>Verify coupler connections are secure</li>
+                        <li>Try different DisplayPort cable</li>
+                        <li>Check BENFEI adapter LED (if present) shows power</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: HP Dock USB-C Not Working</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Verify both adapters (DP→HDMI and HDMI→USB-C) are connected</li>
+                        <li>Check all couplers are seated properly</li>
+                        <li>Confirm HP Dock is outputting DisplayPort signal</li>
+                        <li>Try different HDMI cable between adapters</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Problem: Windows Rearrange When Switching</strong>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Verify EDID emulators are inline in all connections</li>
+                        <li>Check EDID emulator LED (if present) is on</li>
+                        <li>Ensure EDID emulator is 1440p version (matches monitor resolution)</li>
+                    </ul>
+                </div>
+
+                <h3>Getting Additional Help</h3>
+
+                <div class="info-box">
+                    <strong>Resources:</strong>
+                    <ul>
+                        <li><strong>Better Display:</strong> <a href="https://github.com/waydabber/BetterDisplay/discussions" target="_blank">GitHub Discussions</a></li>
+                        <li><strong>InputLeap:</strong> <a href="https://github.com/input-leap/input-leap/issues" target="_blank">GitHub Issues</a></li>
+                        <li><strong>Monitor Manual:</strong> Samsung ViewFinity S65UC user guide for DDC/CI settings</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- BACK BUTTON -->
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="index.html" class="back-button">← Back to Hardware Guide</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
